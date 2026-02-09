@@ -1,0 +1,80 @@
+{
+  "welcome": "ยินดีต้อนรับสู่ OpenClaw",
+  "commands": {
+    "status": "สถานะ",
+    "reset": "รีเซ็ต",
+    "new": "เริ่มใหม่",
+    "help": "ช่วยเหลือ",
+    "start": "เริ่ม",
+    "stop": "หยุด",
+    "compact": "บีบอัด",
+    "clear": "ล้าง"
+  },
+  "messages": {
+    "session_started": "เริ่มเซสชันใหม่แล้ว",
+    "session_reset": "รีเซ็ตเซสชันแล้ว",
+    "session_cleared": "ล้างเซสชันแล้ว",
+    "error": "เกิดข้อผิดพลาด",
+    "success": "สำเร็จ",
+    "loading": "กำลังโหลด...",
+    "connecting": "กำลังเชื่อมต่อ...",
+    "connected": "เชื่อมต่อแล้ว",
+    "disconnected": "ตัดการเชื่อมต่อแล้ว",
+    "sending": "กำลังส่ง...",
+    "sent": "ส่งแล้ว",
+    "received": "ได้รับแล้ว",
+    "processing": "กำลังประมวลผล..."
+  },
+  "channels": {
+    "whatsapp": "วอทส์แอพ",
+    "telegram": "เทเลแกรม",
+    "discord": "ดิสคอร์ด",
+    "slack": "สแล็ก",
+    "signal": "ซิกแนล",
+    "imessage": "iMessage",
+    "webchat": "เว็บแชท",
+    "googlechat": "Google Chat",
+    "msteams": "Microsoft Teams",
+    "matrix": "Matrix",
+    "zalo": "Zalo",
+    "bluebubbles": "BlueBubbles"
+  },
+  "errors": {
+    "not_found": "ไม่พบ",
+    "unauthorized": "ไม่ได้รับอนุญาต",
+    "forbidden": "ถูกห้าม",
+    "bad_request": "คำขอไม่ถูกต้อง",
+    "internal_error": "ข้อผิดพลาดภายในเซิร์ฟเวอร์",
+    "timeout": "หมดเวลาคำขอ",
+    "network_error": "ข้อผิดพลาดเครือข่าย",
+    "invalid_config": "การกำหนดค่าไม่ถูกต้อง",
+    "missing_token": "ขาดโทเค็น",
+    "invalid_token": "โทเค็นไม่ถูกต้อง",
+    "channel_not_enabled": "ช่องทางไม่ได้เปิดใช้งาน",
+    "channel_not_connected": "ช่องทางไม่ได้เชื่อมต่อ"
+  },
+  "status": {
+    "online": "ออนไลน์",
+    "offline": "ออฟไลน์",
+    "connecting": "กำลังเชื่อมต่อ",
+    "error": "ข้อผิดพลาด",
+    "ready": "พร้อม",
+    "busy": "ไม่ว่าง"
+  },
+  "pairing": {
+    "code_sent": "ส่งรหัสการจับคู่แล้ว",
+    "code_invalid": "รหัสการจับคู่ไม่ถูกต้อง",
+    "code_expired": "รหัสการจับคู่หมดอายุ",
+    "success": "การจับคู่สำเร็จ",
+    "already_paired": "จับคู่แล้ว",
+    "request": "คำขอการจับคู่จาก {sender} รหัส: {code}"
+  },
+  "gateway": {
+    "starting": "กำลังเริ่ม gateway...",
+    "started": "Gateway เริ่มแล้วที่พอร์ต {port}",
+    "stopping": "กำลังหยุด gateway...",
+    "stopped": "Gateway หยุดแล้ว",
+    "error": "ข้อผิดพลาด Gateway: {error}",
+    "restart": "กำลังรีสตาร์ท gateway..."
+  }
+}
