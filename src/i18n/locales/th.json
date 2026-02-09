@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "locale": "th-TH",
+    "language": "ภาษาไทย",
+    "direction": "ltr"
+  },
+  "common": {
+    "welcome": "ยินดีต้อนรับสู่ OpenClaw",
+    "loading": "กำลังโหลด...",
+    "error": "เกิดข้อผิดพลาด",
+    "success": "สำเร็จ",
+    "cancel": "ยกเลิก",
+    "confirm": "ยืนยัน",
+    "save": "บันทึก",
+    "delete": "ลบ",
+    "edit": "แก้ไข"
+  },
+  "commands": {
+    "status": "สถานะ",
+    "reset": "รีเซ็ต",
+    "new": "เริ่มใหม่",
+    "compact": "บีบอัด",
+    "help": "ช่วยเหลือ",
+    "restart": "รีสตาร์ท",
+    "activation": "เปิดใช้งาน",
+    "think": "คิด",
+    "verbose": "แสดงรายละเอียด",
+    "usage": "การใช้งาน"
+  },
+  "messages": {
+    "session_started": "เริ่มเซสชันใหม่แล้ว",
+    "session_reset": "รีเซ็ตเซสชันเรียบร้อย",
+    "session_compacted": "บีบอัดเซสชันเรียบร้อย",
+    "gateway_restarted": "รีสตาร์ท Gateway เรียบร้อย",
+    "error_occurred": "เกิดข้อผิดพลาด: {{error}}",
+    "connection_lost": "การเชื่อมต่อขาดหาย",
+    "reconnecting": "กำลังเชื่อมต่อใหม่...",
+    "connected": "เชื่อมต่อสำเร็จ"
+  },
+  "channels": {
+    "whatsapp": "วอทส์แอพ",
+    "telegram": "เทเลแกรม",
+    "slack": "สแล็ก",
+    "discord": "ดิสคอร์ด",
+    "line": "ไลน์",
+    "signal": "ซิกนัล",
+    "imessage": "ไอแมสเสจ"
+  },
+  "errors": {
+    "not_found": "ไม่พบข้อมูล",
+    "unauthorized": "ไม่มีสิทธิ์เข้าถึง",
+    "forbidden": "ถูกปิดกั้น",
+    "internal_error": "เกิดข้อผิดพลาดภายใน",
+    "invalid_config": "การตั้งค่าไม่ถูกต้อง",
+    "connection_failed": "เชื่อมต่อไม่สำเร็จ"
+  },
+  "cli": {
+    "gateway_starting": "กำลังเริ่ม Gateway...",
+    "gateway_started": "เริ่ม Gateway เรียบร้อยที่พอร์ต {{port}}",
+    "onboarding_start": "เริ่มการตั้งค่าเบื้องต้น",
+    "onboarding_complete": "ตั้งค่าเบื้องต้นเสร็จสิ้น"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "locale": "en-US",
+    "language": "English",
+    "direction": "ltr"
+  },
+  "common": {
+    "welcome": "Welcome to OpenClaw",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit"
+  },
+  "commands": {
+    "status": "Status",
+    "reset": "Reset",
+    "new": "New",
+    "compact": "Compact",
+    "help": "Help",
+    "restart": "Restart",
+    "activation": "Activation",
+    "think": "Think",
+    "verbose": "Verbose",
+    "usage": "Usage"
+  },
+  "messages": {
+    "session_started": "New session started",
+    "session_reset": "Session reset successfully",
+    "session_compacted": "Session compacted successfully",
+    "gateway_restarted": "Gateway restarted successfully",
+    "error_occurred": "Error occurred: {{error}}",
+    "connection_lost": "Connection lost",
+    "reconnecting": "Reconnecting...",
+    "connected": "Connected successfully"
+  },
+  "channels": {
+    "whatsapp": "WhatsApp",
+    "telegram": "Telegram",
+    "slack": "Slack",
+    "discord": "Discord",
+    "line": "LINE",
+    "signal": "Signal",
+    "imessage": "iMessage"
+  },
+  "errors": {
+    "not_found": "Not found",
+    "unauthorized": "Unauthorized",
+    "forbidden": "Forbidden",
+    "internal_error": "Internal error",
+    "invalid_config": "Invalid configuration",
+    "connection_failed": "Connection failed"
+  },
+  "cli": {
+    "gateway_starting": "Starting Gateway...",
+    "gateway_started": "Gateway started on port {{port}}",
+    "onboarding_start": "Starting onboarding",
+    "onboarding_complete": "Onboarding complete"
+  }
+}

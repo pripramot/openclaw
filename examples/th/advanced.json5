@@ -1,0 +1,468 @@
+// OpenClaw - การตั้งค่าขั้นสูง
+// ตัวอย่างการตั้งค่าขั้นสูงพร้อมคุณสมบัติทั้งหมด
+// บันทึกเป็น ~/.openclaw/openclaw.json
+
+{
+  // ภาษาและเขตเวลา
+  locale: "th-TH",
+  timezone: "Asia/Bangkok",
+  dateFormat: "DD/MM/YYYY",
+
+  // การตั้งค่า Agent ขั้นสูง
+  agent: {
+    // โมเดลหลัก
+    model: "anthropic/claude-opus-4-5",
+
+    // การตั้งค่าการคิด
+    thinking: {
+      mode: "high",
+      maxTokens: 32000,
+      temperature: 0.7,
+    },
+
+    // การตั้งค่า session
+    session: {
+      maxMessages: 200,
+      autoCompact: true,
+      compactThreshold: 150,
+      pruneOldSessions: true,
+      maxSessionAge: "30d", // วัน
+    },
+
+    // การตั้งค่าหน่วยความจำ
+    memory: {
+      enabled: true,
+      provider: "lancedb", // lancedb | sqlite | memory
+      maxEntries: 10000,
+      embeddingModel: "openai/text-embedding-3-small",
+    },
+  },
+
+  // การตั้งค่า Gateway ขั้นสูง
+  gateway: {
+    port: 18789,
+    bind: "tailnet", // เปิดให้ Tailscale network
+
+    // การยืนยันตัวตน
+    auth: {
+      enabled: true,
+      token: "${OPENCLAW_GATEWAY_TOKEN}",
+      // ต้องตั้ง: export OPENCLAW_GATEWAY_TOKEN="your-secure-random-token"
+    },
+
+    // การตั้งค่า Canvas host
+    canvasHost: {
+      enabled: true,
+      port: 18793,
+      publicUrl: "https://your-domain.com",
+    },
+
+    // การตั้งค่า WebSocket
+    websocket: {
+      pingInterval: 30000, // 30 วินาที
+      connectionTimeout: 60000, // 1 นาที
+    },
+  },
+
+  // การตั้งค่าช่องทางทั้งหมด
+  channels: {
+    // การตั้งค่าค่าเริ่มต้นสำหรับทุกช่องทาง
+    defaults: {
+      dmPolicy: "pairing",
+      groupPolicy: "allowlist",
+      requireMention: true,
+    },
+
+    // WhatsApp ขั้นสูง
+    whatsapp: {
+      enabled: true,
+      allowFrom: ["+66812345678"],
+
+      groups: {
+        // กลุ่มเฉพาะ - การตั้งค่าแยก
+        "120363123456789@g.us": {
+          requireMention: false,
+          allowFrom: "*",
+          maxResponseLength: 2048,
+        },
+
+        // กลุ่มอื่นๆ
+        "*": {
+          requireMention: true,
+          maxResponseLength: 4096,
+        },
+      },
+
+      // การตั้งค่าเพิ่มเติม
+      options: {
+        markMessagesRead: true,
+        sendPresenceUpdates: true,
+        downloadMedia: true,
+        maxMediaSize: 16777216, // 16 MB
+      },
+    },
+
+    // Telegram ขั้นสูง
+    telegram: {
+      enabled: true,
+      botToken: "${TELEGRAM_BOT_TOKEN}",
+      dmPolicy: "pairing",
+
+      allowFrom: [],
+
+      groups: {
+        "-1001234567890": {
+          requireMention: false,
+          commands: ["/ai", "/help"],
+        },
+        "*": {
+          requireMention: true,
+        },
+      },
+
+      options: {
+        typingIndicator: true,
+        chunkLongMessages: true,
+        maxMessageLength: 4096,
+        timeoutSeconds: 30,
+        parseMode: "HTML", // HTML | Markdown
+      },
+    },
+
+    // Discord ขั้นสูง
+    discord: {
+      enabled: true,
+      botToken: "${DISCORD_BOT_TOKEN}",
+
+      dm: {
+        policy: "pairing",
+        allowFrom: [],
+      },
+
+      servers: {
+        // Server เฉพาะ
+        "987654321098765432": {
+          channels: ["general", "bot-commands", "ai-chat"],
+          roles: ["Member", "VIP"], // บทบาทที่สามารถใช้งาน
+          requireMention: false,
+        },
+
+        // Servers อื่นๆ
+        "*": {
+          requireMention: true,
+          channels: ["bot-commands"], // จำกัด channels
+        },
+      },
+
+      options: {
+        typingIndicator: true,
+        embedResponses: true,
+        color: 0x5865f2, // สีของ embed
+      },
+    },
+
+    // LINE ขั้นสูง
+    line: {
+      enabled: true,
+      channelAccessToken: "${LINE_CHANNEL_ACCESS_TOKEN}",
+      channelSecret: "${LINE_CHANNEL_SECRET}",
+      dmPolicy: "pairing",
+
+      groups: {
+        "*": {
+          requireMention: true,
+        },
+      },
+
+      // Rich menu
+      richMenu: {
+        enabled: true,
+        menuId: "${LINE_RICH_MENU_ID}",
+      },
+
+      options: {
+        replyToken: true,
+        pushMessages: true,
+      },
+    },
+  },
+
+  // การกำหนดเส้นทางขั้นสูง (Multi-agent)
+  routing: {
+    enabled: true,
+
+    rules: [
+      // กำหนดเส้นทางตาม user
+      {
+        from: {
+          channel: "telegram",
+          user: "123456789",
+        },
+        to: { agentId: "personal-assistant" },
+      },
+
+      // กำหนดเส้นทางตามกลุ่ม
+      {
+        from: {
+          channel: "discord",
+          server: "987654321098765432",
+        },
+        to: { agentId: "discord-bot" },
+      },
+
+      // กำหนดเส้นทางตามเวลา
+      {
+        from: { channel: "whatsapp" },
+        to: { agentId: "work-assistant" },
+        schedule: {
+          days: ["Mon", "Tue", "Wed", "Thu", "Fri"],
+          hours: "9-18",
+        },
+      },
+
+      // ค่าเริ่มต้น
+      {
+        from: { channel: "*" },
+        to: { agentId: "main" },
+      },
+    ],
+  },
+
+  // การตั้งค่าข้อความขั้นสูง
+  messages: {
+    groupChat: {
+      mentionPatterns: ["@openclaw", "openclaw", "/ai", "🦞"],
+    },
+
+    commands: {
+      alwaysRespond: ["/help", "/start", "/status", "/new", "/reset", "/compact", "/usage"],
+    },
+
+    maxResponseLength: 4096,
+    chunkLongMessages: true,
+
+    // การตั้งค่าการตอบกลับ
+    responsePrefix: "", // คำนำหน้าการตอบกลับ
+    includeQuote: false, // อ้างอิงข้อความเดิม
+  },
+
+  // การตั้งค่าสื่อขั้นสูง
+  media: {
+    maxImageSize: 10485760,
+    maxAudioSize: 20971520,
+    maxVideoSize: 52428800,
+    maxDocumentSize: 10485760,
+
+    // คุณสมบัติ
+    transcribeAudio: true,
+    transcribeProvider: "openai", // openai | deepgram
+    downloadImages: true,
+    downloadDocuments: true,
+    generateImagePreviews: true,
+
+    // การตั้งค่าการบีบอัด
+    compression: {
+      enabled: true,
+      quality: 80,
+      maxWidth: 1920,
+      maxHeight: 1080,
+    },
+  },
+
+  // การตั้งค่า Tools และ Skills ขั้นสูง
+  tools: {
+    enabled: [
+      "web_search",
+      "browser",
+      "memory",
+      "calculator",
+      "code_interpreter",
+      "file_operations",
+      "system_commands",
+    ],
+
+    // Web search
+    web: {
+      searchProvider: "perplexity", // perplexity | brave | google
+      maxResults: 10,
+      timeout: 30000,
+    },
+
+    // Browser control
+    browser: {
+      enabled: true,
+      headless: true,
+      timeout: 60000,
+      maxTabs: 5,
+      profiles: ["default", "work"],
+    },
+
+    // Code interpreter
+    code: {
+      enabled: true,
+      languages: ["python", "javascript", "bash"],
+      timeout: 30000,
+      sandbox: true,
+    },
+
+    // Memory
+    memory: {
+      autoIndex: true,
+      indexInterval: "1h",
+      searchLimit: 10,
+    },
+  },
+
+  // Skills
+  skills: {
+    enabled: true,
+    bundled: ["blogwatcher", "github-assistant", "calendar"],
+    workspace: "~/.openclaw/skills",
+    autoUpdate: false,
+  },
+
+  // Cron jobs และ automation
+  cron: {
+    enabled: true,
+    timezone: "Asia/Bangkok",
+
+    jobs: [
+      {
+        name: "morning-briefing",
+        schedule: "0 8 * * *", // ทุกวัน 8 โมงเช้า
+        agentId: "main",
+        message: "สรุปข่าวประจำวันและสภาพอากาศ",
+        deliverTo: {
+          channel: "telegram",
+          recipient: "123456789",
+        },
+      },
+      {
+        name: "weekly-summary",
+        schedule: "0 18 * * 5", // ทุกวันศุกร์ 6 โมงเย็น
+        agentId: "main",
+        message: "สรุปงานประจำสัปดาห์",
+        deliverTo: {
+          channel: "line",
+          recipient: "U1234567890abcdef",
+        },
+      },
+    ],
+  },
+
+  // Webhooks
+  webhooks: {
+    enabled: true,
+    endpoints: [
+      {
+        name: "github-notifications",
+        url: "/__openclaw__/webhooks/github",
+        secret: "${GITHUB_WEBHOOK_SECRET}",
+        deliverTo: {
+          channel: "discord",
+          recipient: "987654321098765432", // channel/server ID
+        },
+      },
+    ],
+  },
+
+  // การตั้งค่าความปลอดภัย
+  security: {
+    // Rate limiting
+    rateLimit: {
+      enabled: true,
+      maxRequests: 60,
+      window: "1m",
+    },
+
+    // Content filtering
+    contentFilter: {
+      enabled: true,
+      blockPatterns: [
+        // "pattern1",
+        // "pattern2",
+      ],
+    },
+
+    // Audit logging
+    audit: {
+      enabled: true,
+      logFile: "~/.openclaw/logs/audit.log",
+      logLevel: "info",
+    },
+  },
+
+  // การตั้งค่า logging ขั้นสูง
+  logging: {
+    level: "debug",
+    file: "~/.openclaw/logs/openclaw.log",
+
+    // Rotation
+    rotation: {
+      enabled: true,
+      maxSize: "10M",
+      maxFiles: 7,
+    },
+
+    // Channel-specific logs
+    channelLogs: {
+      whatsapp: "~/.openclaw/logs/whatsapp.log",
+      telegram: "~/.openclaw/logs/telegram.log",
+      discord: "~/.openclaw/logs/discord.log",
+      line: "~/.openclaw/logs/line.log",
+    },
+
+    // Structured logging
+    format: "json", // text | json
+
+    // Performance monitoring
+    performance: {
+      enabled: true,
+      logSlowQueries: true,
+      threshold: 1000, // ms
+    },
+  },
+
+  // การตั้งค่า Backup
+  backup: {
+    enabled: true,
+    schedule: "0 2 * * *", // ทุกวัน 2 โมงเช้า
+    destination: "~/.openclaw/backups",
+    retention: "30d",
+    include: ["config", "sessions", "memory"],
+  },
+}
+
+/*
+ * คำแนะนำการตั้งค่า:
+ *
+ * 1. ตั้งค่า environment variables ทั้งหมด:
+ *    export TELEGRAM_BOT_TOKEN="..."
+ *    export DISCORD_BOT_TOKEN="..."
+ *    export LINE_CHANNEL_ACCESS_TOKEN="..."
+ *    export LINE_CHANNEL_SECRET="..."
+ *    export OPENCLAW_GATEWAY_TOKEN="$(openssl rand -hex 32)"
+ *    export GITHUB_WEBHOOK_SECRET="..."
+ *
+ * 2. ตรวจสอบการตั้งค่า:
+ *    openclaw config validate
+ *
+ * 3. เริ่ม Gateway:
+ *    openclaw gateway --port 18789 --verbose
+ *
+ * 4. ตั้งค่า Tailscale (ถ้าใช้):
+ *    tailscale up
+ *    tailscale funnel 18789
+ *
+ * 5. ตรวจสอบสถานะทั้งหมด:
+ *    openclaw status --all --probe
+ *
+ * 6. ตรวจสอบ cron jobs:
+ *    openclaw cron list
+ *
+ * 7. ตรวจสอบ webhooks:
+ *    openclaw webhooks list
+ *
+ * 8. Monitor performance:
+ *    openclaw logs --follow --performance
+ */

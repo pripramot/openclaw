@@ -1,0 +1,135 @@
+// OpenClaw - การตั้งค่า Telegram Bot
+// ตัวอย่างการตั้งค่าสำหรับ Telegram Bot
+// บันทึกเป็น ~/.openclaw/openclaw.json
+
+{
+  // ภาษาและเขตเวลา
+  locale: "th-TH",
+  timezone: "Asia/Bangkok",
+
+  // การตั้งค่า Agent
+  agent: {
+    model: "anthropic/claude-opus-4-5",
+    thinking: {
+      mode: "medium",
+    },
+  },
+
+  // การตั้งค่า Gateway
+  gateway: {
+    port: 18789,
+    bind: "loopback",
+  },
+
+  // การตั้งค่าช่องทาง - Telegram
+  channels: {
+    telegram: {
+      // เปิดใช้งาน Telegram
+      enabled: true,
+
+      // Bot token จาก @BotFather
+      // วิธีรับ token:
+      // 1. พูดคุยกับ @BotFather ใน Telegram
+      // 2. ส่งคำสั่ง /newbot
+      // 3. ตั้งชื่อบอท
+      // 4. คัดลอก token ที่ได้รับ
+      botToken: "${TELEGRAM_BOT_TOKEN}",
+
+      // นโยบาย DM (Direct Message)
+      // "pairing" - ต้องอนุมัติก่อนใช้งาน (แนะนำ)
+      // "open" - รับข้อความจากทุกคน
+      // "closed" - ไม่รับข้อความ DM
+      dmPolicy: "pairing",
+
+      // รายการผู้ใช้ที่อนุญาต (User IDs)
+      allowFrom: [
+        // "123456789", // เพิ่ม Telegram User ID ของคุณ
+      ],
+
+      // การตั้งค่ากลุ่ม
+      groups: {
+        // กลุ่มเฉพาะ (ตัวอย่าง)
+        // "-1001234567890": {
+        //   requireMention: false, // ตอบทุกข้อความ
+        //   allowFrom: "*",
+        // },
+
+        // กลุ่มอื่นๆ
+        "*": {
+          requireMention: true, // ต้องแท็กบอท (@botname)
+        },
+      },
+
+      // การตั้งค่าเพิ่มเติม
+      options: {
+        // แสดงสถานะกำลังพิมพ์
+        typingIndicator: true,
+
+        // ส่งข้อความยาวเป็นหลายส่วน
+        chunkLongMessages: true,
+
+        // Timeout สำหรับการส่งข้อความ (milliseconds)
+        timeoutSeconds: 30,
+      },
+    },
+
+    // ปิดช่องทางอื่นๆ
+    whatsapp: { enabled: false },
+    discord: { enabled: false },
+  },
+
+  // การตั้งค่าข้อความ
+  messages: {
+    groupChat: {
+      // รูปแบบการกล่าวถึงที่จะตอบ
+      mentionPatterns: [
+        "@openclaw",
+        "openclaw",
+        "/ai", // คำสั่งเพิ่มเติม
+      ],
+    },
+
+    // คำสั่งพิเศษ
+    commands: {
+      // คำสั่งที่บอทจะตอบเสมอ (ไม่ต้องแท็ก)
+      alwaysRespond: ["/help", "/start", "/status"],
+    },
+  },
+
+  // การตั้งค่าสื่อ
+  media: {
+    // รองรับสื่อประเภทต่างๆ
+    transcribeAudio: true,
+    downloadImages: true,
+    downloadDocuments: true,
+  },
+
+  // การตั้งค่า logging
+  logging: {
+    level: "info",
+    file: "~/.openclaw/logs/telegram.log",
+  },
+}
+
+/*
+ * คำแนะนำการตั้งค่า:
+ *
+ * 1. ตั้งค่า TELEGRAM_BOT_TOKEN environment variable:
+ *    export TELEGRAM_BOT_TOKEN="your-bot-token"
+ *
+ * 2. เริ่ม Gateway:
+ *    openclaw gateway --port 18789 --verbose
+ *
+ * 3. ค้นหา User ID ของคุณ:
+ *    - ส่งข้อความถึงบอท
+ *    - ดู logs: openclaw logs --channel telegram
+ *    - คัดลอก User ID จาก logs
+ *
+ * 4. เพิ่ม User ID ใน allowFrom
+ *
+ * 5. อนุมัติ pairing (ถ้าใช้ dmPolicy: "pairing"):
+ *    openclaw pairing approve telegram <code>
+ *
+ * 6. เริ่มใช้งาน!
+ *    ส่งข้อความถึงบอทใน Telegram
+ */

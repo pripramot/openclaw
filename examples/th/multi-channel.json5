@@ -1,0 +1,263 @@
+// OpenClaw - การตั้งค่าหลายช่องทาง
+// ตัวอย่างการตั้งค่าสำหรับใช้งานหลายช่องทางพร้อมกัน
+// บันทึกเป็น ~/.openclaw/openclaw.json
+
+{
+  // ภาษาและเขตเวลา
+  locale: "th-TH",
+  timezone: "Asia/Bangkok",
+  dateFormat: "DD/MM/YYYY",
+
+  // การตั้งค่า Agent
+  agent: {
+    model: "anthropic/claude-opus-4-5",
+    thinking: {
+      mode: "medium",
+      maxTokens: 16000,
+    },
+    session: {
+      maxMessages: 150,
+      autoCompact: true,
+      compactThreshold: 100,
+    },
+  },
+
+  // การตั้งค่า Gateway
+  gateway: {
+    port: 18789,
+    bind: "loopback",
+    auth: {
+      enabled: false,
+    },
+  },
+
+  // การตั้งค่าช่องทาง - เปิดหลายช่องทาง
+  channels: {
+    // WhatsApp
+    whatsapp: {
+      enabled: true,
+
+      // รายการเบอร์ที่อนุญาต
+      allowFrom: ["+66812345678"],
+
+      // การตั้งค่ากลุ่ม WhatsApp
+      groups: {
+        "*": {
+          requireMention: true,
+        },
+      },
+
+      groupPolicy: "allowlist",
+    },
+
+    // Telegram
+    telegram: {
+      enabled: true,
+      botToken: "${TELEGRAM_BOT_TOKEN}",
+      dmPolicy: "pairing",
+
+      // รายการ User IDs ที่อนุญาต
+      allowFrom: [
+        // "123456789",
+      ],
+
+      groups: {
+        "*": {
+          requireMention: true,
+        },
+      },
+    },
+
+    // Discord
+    discord: {
+      enabled: true,
+      botToken: "${DISCORD_BOT_TOKEN}",
+
+      dm: {
+        policy: "pairing",
+        allowFrom: [
+          // "123456789012345678",
+        ],
+      },
+
+      // การตั้งค่า servers และ channels
+      servers: {
+        // Server เฉพาะ
+        // "987654321098765432": {
+        //   channels: ["general", "bot-commands"],
+        //   requireMention: false,
+        // },
+
+        // Servers อื่นๆ
+        "*": {
+          requireMention: true,
+        },
+      },
+    },
+
+    // LINE
+    line: {
+      enabled: true,
+      channelAccessToken: "${LINE_CHANNEL_ACCESS_TOKEN}",
+      channelSecret: "${LINE_CHANNEL_SECRET}",
+      dmPolicy: "pairing",
+
+      groups: {
+        "*": {
+          requireMention: true,
+        },
+      },
+    },
+
+    // Slack (ตัวเลือก)
+    slack: {
+      enabled: false,
+      botToken: "${SLACK_BOT_TOKEN}",
+      appToken: "${SLACK_APP_TOKEN}",
+    },
+  },
+
+  // การกำหนดเส้นทาง (Routing)
+  routing: {
+    // กำหนดเส้นทางตามช่องทาง
+    rules: [
+      {
+        // WhatsApp ไปยัง main agent
+        from: { channel: "whatsapp" },
+        to: { agentId: "main" },
+      },
+      {
+        // Telegram ไปยัง main agent
+        from: { channel: "telegram" },
+        to: { agentId: "main" },
+      },
+      {
+        // Discord ไปยัง main agent
+        from: { channel: "discord" },
+        to: { agentId: "main" },
+      },
+      {
+        // LINE ไปยัง main agent
+        from: { channel: "line" },
+        to: { agentId: "main" },
+      },
+    ],
+  },
+
+  // การตั้งค่าข้อความ
+  messages: {
+    groupChat: {
+      // รูปแบบการกล่าวถึง
+      mentionPatterns: [
+        "@openclaw",
+        "openclaw",
+        "/ai",
+        "🦞", // emoji lobster!
+      ],
+    },
+
+    // คำสั่งระบบ
+    commands: {
+      alwaysRespond: ["/help", "/start", "/status", "/new", "/reset"],
+    },
+
+    // จำกัดความยาวตอบกลับ
+    maxResponseLength: 4096,
+
+    // แบ่งข้อความยาว
+    chunkLongMessages: true,
+  },
+
+  // การตั้งค่าสื่อ
+  media: {
+    // ขนาดไฟล์สูงสุด
+    maxImageSize: 10485760, // 10 MB
+    maxAudioSize: 20971520, // 20 MB
+    maxVideoSize: 52428800, // 50 MB
+    maxDocumentSize: 10485760, // 10 MB
+
+    // คุณสมบัติ
+    transcribeAudio: true,
+    downloadImages: true,
+    downloadDocuments: true,
+    generateImagePreviews: true,
+  },
+
+  // การตั้งค่า tools และ skills
+  tools: {
+    // เครื่องมือที่เปิดใช้งาน
+    enabled: ["web_search", "browser", "memory", "calculator"],
+
+    // การตั้งค่าเว็บ
+    web: {
+      searchProvider: "perplexity",
+      maxResults: 5,
+    },
+
+    // การตั้งค่า browser
+    browser: {
+      headless: true,
+      timeout: 30000,
+    },
+  },
+
+  // การตั้งค่า cron jobs (ตัวเลือก)
+  cron: {
+    enabled: false,
+    jobs: [
+      // {
+      //   name: "daily-summary",
+      //   schedule: "0 9 * * *", // ทุกวัน 9 โมงเช้า
+      //   agentId: "main",
+      //   message: "สรุปข่าววันนี้",
+      //   deliverTo: {
+      //     channel: "telegram",
+      //     recipient: "123456789",
+      //   },
+      // },
+    ],
+  },
+
+  // การตั้งค่า logging
+  logging: {
+    level: "info",
+    file: "~/.openclaw/logs/openclaw.log",
+
+    // แยก logs ตามช่องทาง
+    channelLogs: {
+      whatsapp: "~/.openclaw/logs/whatsapp.log",
+      telegram: "~/.openclaw/logs/telegram.log",
+      discord: "~/.openclaw/logs/discord.log",
+      line: "~/.openclaw/logs/line.log",
+    },
+  },
+}
+
+/*
+ * คำแนะนำการตั้งค่า:
+ *
+ * 1. ตั้งค่า environment variables สำหรับทุกช่องทาง:
+ *    export TELEGRAM_BOT_TOKEN="..."
+ *    export DISCORD_BOT_TOKEN="..."
+ *    export LINE_CHANNEL_ACCESS_TOKEN="..."
+ *    export LINE_CHANNEL_SECRET="..."
+ *
+ * 2. เข้าสู่ระบบ WhatsApp:
+ *    openclaw channels login whatsapp
+ *
+ * 3. เริ่ม Gateway:
+ *    openclaw gateway --port 18789 --verbose
+ *
+ * 4. ตรวจสอบสถานะทุกช่องทาง:
+ *    openclaw channels status --all
+ *
+ * 5. อนุมัติ pairing requests:
+ *    openclaw pairing list
+ *    openclaw pairing approve <channel> <code>
+ *
+ * 6. ทดสอบแต่ละช่องทาง
+ *    ส่งข้อความทดสอบผ่านแต่ละแพลตฟอร์ม
+ *
+ * 7. ตรวจสอบ logs:
+ *    openclaw logs --all --tail 100
+ */
