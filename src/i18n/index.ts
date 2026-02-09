@@ -3,8 +3,28 @@
  * Provides translations for multiple languages
  */
 
-import enTranslations from "./locales/en.json";
-import thTranslations from "./locales/th.json";
+import { readFileSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Load translations
+function loadTranslations(locale: string): Translations {
+  try {
+    const filePath = join(__dirname, "locales", `${locale}.json`);
+    const content = readFileSync(filePath, "utf-8");
+    return JSON.parse(content);
+  } catch (error) {
+    console.warn(`Failed to load locale '${locale}':`, error);
+    // Fallback to English
+    if (locale !== "en") {
+      return loadTranslations("en");
+    }
+    throw error;
+  }
+}
 
 export type Locale = "en" | "th" | "zh-CN";
 
@@ -19,11 +39,15 @@ export interface Translations {
   gateway: Record<string, string>;
 }
 
-const translations: Record<Locale, Translations> = {
-  en: enTranslations,
-  th: thTranslations,
-  "zh-CN": enTranslations, // Use English as fallback for Chinese
-};
+const translations: Partial<Record<Locale, Translations>> = {};
+
+// Lazy load translations
+function getTranslationsForLocale(locale: Locale): Translations {
+  if (!translations[locale]) {
+    translations[locale] = loadTranslations(locale);
+  }
+  return translations[locale]!;
+}
 
 let currentLocale: Locale = "en";
 
@@ -31,7 +55,7 @@ let currentLocale: Locale = "en";
  * Set the current locale
  */
 export function setLocale(locale: Locale): void {
-  if (translations[locale]) {
+  if (isLocaleSupported(locale)) {
     currentLocale = locale;
   } else {
     console.warn(`Locale '${locale}' not found, falling back to 'en'`);
@@ -52,14 +76,14 @@ export function getLocale(): Locale {
  */
 export function t(key: string, replacements?: Record<string, string>): string {
   const keys = key.split(".");
-  let value: any = translations[currentLocale];
+  let value: any = getTranslationsForLocale(currentLocale);
 
   for (const k of keys) {
     if (value && typeof value === "object" && k in value) {
       value = value[k];
     } else {
       // Fallback to English if key not found
-      value = translations.en;
+      value = getTranslationsForLocale("en");
       for (const fallbackKey of keys) {
         if (value && typeof value === "object" && fallbackKey in value) {
           value = value[fallbackKey];
@@ -89,21 +113,22 @@ export function t(key: string, replacements?: Record<string, string>): string {
  * Get all translations for the current locale
  */
 export function getTranslations(): Translations {
-  return translations[currentLocale];
+  return getTranslationsForLocale(currentLocale);
 }
 
 /**
  * Check if a locale is supported
  */
 export function isLocaleSupported(locale: string): boolean {
-  return locale in translations;
+  const supportedLocales: Locale[] = ["en", "th", "zh-CN"];
+  return supportedLocales.includes(locale as Locale);
 }
 
 /**
  * Get list of supported locales
  */
 export function getSupportedLocales(): Locale[] {
-  return Object.keys(translations) as Locale[];
+  return ["en", "th", "zh-CN"];
 }
 
 /**
