@@ -39,24 +39,28 @@ openclaw onboard --install-daemon
 ### 2. เชื่อมต่อช่องทาง
 
 #### WhatsApp
+
 ```bash
 openclaw channels login whatsapp
 # สแกน QR code ด้วยแอป WhatsApp
 ```
 
 #### Telegram
+
 ```bash
 openclaw channels login telegram
 # ป้อน bot token จาก @BotFather
 ```
 
 #### Discord
+
 ```bash
 openclaw channels login discord
 # ป้อน bot token จาก Discord Developer Portal
 ```
 
 #### LINE
+
 ```bash
 openclaw channels login line
 # ป้อน Channel Access Token และ Channel Secret
@@ -87,14 +91,14 @@ openclaw channels status
         },
       },
     },
-    
+
     // Telegram
     telegram: {
       enabled: true,
       botToken: process.env.TELEGRAM_BOT_TOKEN,
       dmPolicy: "pairing", // pairing | open | closed
     },
-    
+
     // Discord
     discord: {
       enabled: true,
@@ -104,7 +108,7 @@ openclaw channels status
         allowFrom: ["123456789"], // Discord User IDs
       },
     },
-    
+
     // LINE
     line: {
       enabled: true,
@@ -135,11 +139,8 @@ openclaw channels status
   channels: {
     whatsapp: {
       // อนุญาตเฉพาะเบอร์เหล่านี้
-      allowFrom: [
-        "+66812345678",
-        "+66898765432",
-      ],
-      
+      allowFrom: ["+66812345678", "+66898765432"],
+
       // การตั้งค่ากลุ่ม
       groups: {
         // กลุ่มเฉพาะ
@@ -147,7 +148,7 @@ openclaw channels status
           requireMention: false,
           allowFrom: "*",
         },
-        
+
         // กลุ่มอื่นๆ
         "*": {
           requireMention: true,
@@ -182,15 +183,15 @@ echo 'DISCORD_BOT_TOKEN="..."' >> ~/.openclaw/.env
 
 ## 📊 คุณสมบัติแต่ละช่องทาง
 
-| ช่องทาง | DM | กลุ่ม | สื่อ | เสียง | ตำแหน่ง |
-|---------|:--:|:-----:|:----:|:-----:|:-------:|
-| WhatsApp | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Telegram | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Discord | ✅ | ✅ | ✅ | ✅ | ❌ |
-| Slack | ✅ | ✅ | ✅ | ❌ | ❌ |
-| LINE | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Signal | ✅ | ✅ | ✅ | ❌ | ❌ |
-| iMessage | ✅ | ✅ | ✅ | ❌ | ❌ |
+| ช่องทาง  | DM  | กลุ่ม | สื่อ | เสียง | ตำแหน่ง |
+| -------- | :-: | :---: | :--: | :---: | :-----: |
+| WhatsApp | ✅  |  ✅   |  ✅  |  ✅   |   ✅    |
+| Telegram | ✅  |  ✅   |  ✅  |  ✅   |   ✅    |
+| Discord  | ✅  |  ✅   |  ✅  |  ✅   |   ❌    |
+| Slack    | ✅  |  ✅   |  ✅  |  ❌   |   ❌    |
+| LINE     | ✅  |  ✅   |  ✅  |  ✅   |   ✅    |
+| Signal   | ✅  |  ✅   |  ✅  |  ❌   |   ❌    |
+| iMessage | ✅  |  ✅   |  ✅  |  ❌   |   ❌    |
 
 ## 🔄 การจัดการหลายช่องทาง
 

@@ -74,6 +74,7 @@ openclaw onboard --install-daemon
 ```
 
 ตัวช่วยจะทำ:
+
 1. สร้างไดเรกทอรีการตั้งค่า (`~/.openclaw/`)
 2. สร้างไฟล์การตั้งค่าเริ่มต้น
 3. ติดตั้ง Gateway daemon
@@ -121,7 +122,7 @@ export OPENAI_API_KEY="sk-..."
 สร้าง `docker-compose.yml`:
 
 ```yaml
-version: '3.8'
+version: "3.8"
 services:
   openclaw:
     image: openclaw/openclaw:latest
@@ -284,6 +285,7 @@ rm ~/.config/systemd/user/openclaw-gateway.service
 ### ปัญหา: คำสั่ง 'openclaw' ไม่พบ
 
 **วิธีแก้:**
+
 ```bash
 # ตรวจสอบ PATH
 echo $PATH
@@ -298,6 +300,7 @@ echo 'export PATH="$PATH:$(npm config get prefix)/bin"' >> ~/.bashrc
 ### ปัญหา: Permission denied
 
 **วิธีแก้:**
+
 ```bash
 # ใช้ --unsafe-perm สำหรับ npm
 sudo npm install -g openclaw --unsafe-perm
@@ -312,6 +315,7 @@ source ~/.profile
 ### ปัญหา: Node.js เวอร์ชันเก่า
 
 **วิธีแก้:**
+
 ```bash
 # ใช้ nvm เพื่ออัปเกรด Node.js
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
@@ -323,6 +327,7 @@ nvm use 22
 ### ปัญหา: การติดตั้งช้ามาก
 
 **วิธีแก้:**
+
 ```bash
 # ใช้ registry ที่เร็วขึ้น (สำหรับไทย)
 npm config set registry https://registry.npmmirror.com/

@@ -12,13 +12,13 @@
   agent: {
     // โมเดล AI ที่จะใช้
     model: "anthropic/claude-opus-4-5",
-    
+
     // การตั้งค่าการคิด
     thinking: {
       mode: "low", // low | medium | high
       maxTokens: 8000,
     },
-    
+
     // การตั้งค่า session
     session: {
       maxMessages: 100,
@@ -30,10 +30,10 @@
   gateway: {
     // พอร์ตที่จะใช้
     port: 18789,
-    
+
     // การผูกกับ interface
     bind: "loopback", // loopback | tailnet | all
-    
+
     // การยืนยันตัวตน (สำหรับการเข้าถึงระยะไกล)
     auth: {
       enabled: false,
@@ -60,12 +60,9 @@
     // การตั้งค่าข้อความกลุ่ม
     groupChat: {
       // รูปแบบการกล่าวถึงที่จะตอบ
-      mentionPatterns: [
-        "@openclaw",
-        "openclaw",
-      ],
+      mentionPatterns: ["@openclaw", "openclaw"],
     },
-    
+
     // จำกัดความยาวของการตอบกลับ
     maxResponseLength: 4096,
   },
@@ -73,10 +70,10 @@
   // การตั้งค่าสื่อ
   media: {
     // จำกัดขนาดไฟล์สื่อ (bytes)
-    maxImageSize: 10485760,  // 10 MB
-    maxAudioSize: 20971520,  // 20 MB
-    maxVideoSize: 52428800,  // 50 MB
-    
+    maxImageSize: 10485760, // 10 MB
+    maxAudioSize: 20971520, // 20 MB
+    maxVideoSize: 52428800, // 50 MB
+
     // การถอดเสียงอัตโนมัติ
     transcribeAudio: true,
   },

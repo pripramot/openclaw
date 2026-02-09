@@ -11,11 +11,13 @@
 ## 📚 หัวข้อหลัก
 
 ### พื้นฐาน
+
 - [สถาปัตยกรรม](architecture.md) - ภาพรวมสถาปัตยกรรมระบบ
 - [ความปลอดภัย](security.md) - แนวทางความปลอดภัยและแนวปฏิบัติที่ดีที่สุด
 - [การแก้ไขปัญหา](troubleshooting.md) - ปัญหาทั่วไปและวิธีแก้ไข
 
 ### ช่องทาง (Channels)
+
 - [ภาพรวมช่องทาง](channels/README.md)
 - [WhatsApp](channels/whatsapp.md)
 - [Telegram](channels/telegram.md)
@@ -23,12 +25,14 @@
 - [LINE](channels/line.md)
 
 ### แพลตฟอร์ม
+
 - [macOS](platforms/macos.md)
 - [iOS](platforms/ios.md)
 - [Android](platforms/android.md)
 - [Linux](platforms/linux.md)
 
 ### API
+
 - [CLI](api/cli.md) - Command Line Interface
 - [WebSocket](api/websocket.md) - WebSocket API
 

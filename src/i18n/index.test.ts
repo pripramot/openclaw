@@ -123,9 +123,6 @@ describe("i18n", () => {
 
   describe("Translation completeness", () => {
     it("should have matching keys in English and Thai", () => {
-      const enKeys = Object.keys(t("common", undefined, "en"));
-      const thKeys = Object.keys(t("common", undefined, "th"));
-
       // Both should exist (even if we get [Missing:...] we can check structure)
       // This is a basic check - in production you'd want more comprehensive validation
       expect(t("common.welcome", undefined, "en")).not.toContain("[Missing:");

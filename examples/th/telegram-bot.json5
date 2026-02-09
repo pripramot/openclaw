@@ -26,26 +26,26 @@
     telegram: {
       // เปิดใช้งาน Telegram
       enabled: true,
-      
+
       // Bot token จาก @BotFather
       // วิธีรับ token:
       // 1. พูดคุยกับ @BotFather ใน Telegram
       // 2. ส่งคำสั่ง /newbot
       // 3. ตั้งชื่อบอท
       // 4. คัดลอก token ที่ได้รับ
-      botToken: process.env.TELEGRAM_BOT_TOKEN,
-      
+      botToken: "${TELEGRAM_BOT_TOKEN}",
+
       // นโยบาย DM (Direct Message)
       // "pairing" - ต้องอนุมัติก่อนใช้งาน (แนะนำ)
       // "open" - รับข้อความจากทุกคน
       // "closed" - ไม่รับข้อความ DM
       dmPolicy: "pairing",
-      
+
       // รายการผู้ใช้ที่อนุญาต (User IDs)
       allowFrom: [
         // "123456789", // เพิ่ม Telegram User ID ของคุณ
       ],
-      
+
       // การตั้งค่ากลุ่ม
       groups: {
         // กลุ่มเฉพาะ (ตัวอย่าง)
@@ -53,26 +53,26 @@
         //   requireMention: false, // ตอบทุกข้อความ
         //   allowFrom: "*",
         // },
-        
+
         // กลุ่มอื่นๆ
         "*": {
           requireMention: true, // ต้องแท็กบอท (@botname)
         },
       },
-      
+
       // การตั้งค่าเพิ่มเติม
       options: {
         // แสดงสถานะกำลังพิมพ์
         typingIndicator: true,
-        
+
         // ส่งข้อความยาวเป็นหลายส่วน
         chunkLongMessages: true,
-        
+
         // Timeout สำหรับการส่งข้อความ (milliseconds)
         timeoutSeconds: 30,
       },
     },
-    
+
     // ปิดช่องทางอื่นๆ
     whatsapp: { enabled: false },
     discord: { enabled: false },
@@ -88,15 +88,11 @@
         "/ai", // คำสั่งเพิ่มเติม
       ],
     },
-    
+
     // คำสั่งพิเศษ
     commands: {
       // คำสั่งที่บอทจะตอบเสมอ (ไม่ต้องแท็ก)
-      alwaysRespond: [
-        "/help",
-        "/start",
-        "/status",
-      ],
+      alwaysRespond: ["/help", "/start", "/status"],
     },
   },
 

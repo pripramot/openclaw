@@ -81,22 +81,22 @@ export LINE_CHANNEL_SECRET="your-channel-secret"
       enabled: true,
       channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
       channelSecret: process.env.LINE_CHANNEL_SECRET,
-      
+
       // นโยบายการเข้าถึง
       dmPolicy: "pairing", // pairing | open | closed
-      
+
       // รายการ User ID ที่อนุญาต
       allowFrom: [
         "U1234567890abcdef", // LINE User ID
       ],
-      
+
       // การตั้งค่ากลุ่ม
       groups: {
         "*": {
           requireMention: true,
         },
       },
-      
+
       // การตั้งค่า webhook
       webhookPath: "/__openclaw__/line/webhook",
       webhookPort: 18793, // หรือพอร์ตที่คุณต้องการ
@@ -149,13 +149,13 @@ tailscale funnel 18793
 server {
     listen 443 ssl;
     server_name your-domain.com;
-    
+
     location /__openclaw__/line/webhook {
         proxy_pass http://localhost:18793;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
     }
-    
+
     ssl_certificate /path/to/cert.pem;
     ssl_certificate_key /path/to/key.pem;
 }
@@ -272,18 +272,18 @@ openclaw pairing approve line ABCD1234
         action: {
           type: "message",
           label: "ช่วยเหลือ",
-          text: "/help"
-        }
+          text: "/help",
+        },
       },
       {
         type: "action",
         action: {
           type: "message",
           label: "สถานะ",
-          text: "/status"
-        }
-      }
-    ]
+          text: "/status",
+        },
+      },
+    ];
   }
 }
 ```
@@ -334,18 +334,15 @@ OpenClaw จะตรวจสอบ signature โดยอัตโนมัต
   channels: {
     line: {
       // จำกัดเฉพาะ User IDs เหล่านี้
-      allowFrom: [
-        "U1234567890abcdef",
-        "Uabcdef1234567890",
-      ],
-      
+      allowFrom: ["U1234567890abcdef", "Uabcdef1234567890"],
+
       // หรือใช้ pairing mode
       dmPolicy: "pairing",
-      
+
       // การตั้งค่ากลุ่ม
       groups: {
         // กลุ่มเฉพาะ
-        "C1234567890abcdef": {
+        C1234567890abcdef: {
           requireMention: false,
         },
         // กลุ่มอื่นๆ ต้องแท็ก
@@ -384,6 +381,7 @@ openclaw channels restart line
 **สาเหตุ:** Signature verification ล้มเหลว
 
 **วิธีแก้:**
+
 ```bash
 # ตรวจสอบ channel secret ถูกต้อง
 openclaw config get channels.line.channelSecret
@@ -395,6 +393,7 @@ openclaw logs --channel line --filter "webhook"
 ### ไม่ได้รับข้อความ
 
 **วิธีแก้:**
+
 ```bash
 # ตรวจสอบว่า webhook ทำงาน
 curl -X POST https://your-domain.com/__openclaw__/line/webhook \
@@ -411,6 +410,7 @@ openclaw channels status line
 ### ข้อความส่งช้า
 
 **วิธีแก้:**
+
 ```bash
 # ตรวจสอบ latency
 openclaw channels status --probe line

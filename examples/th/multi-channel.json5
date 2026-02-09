@@ -36,33 +36,31 @@
     // WhatsApp
     whatsapp: {
       enabled: true,
-      
+
       // รายการเบอร์ที่อนุญาต
-      allowFrom: [
-        "+66812345678",
-      ],
-      
+      allowFrom: ["+66812345678"],
+
       // การตั้งค่ากลุ่ม WhatsApp
       groups: {
         "*": {
           requireMention: true,
         },
       },
-      
+
       groupPolicy: "allowlist",
     },
 
     // Telegram
     telegram: {
       enabled: true,
-      botToken: process.env.TELEGRAM_BOT_TOKEN,
+      botToken: "${TELEGRAM_BOT_TOKEN}",
       dmPolicy: "pairing",
-      
+
       // รายการ User IDs ที่อนุญาต
       allowFrom: [
         // "123456789",
       ],
-      
+
       groups: {
         "*": {
           requireMention: true,
@@ -73,15 +71,15 @@
     // Discord
     discord: {
       enabled: true,
-      botToken: process.env.DISCORD_BOT_TOKEN,
-      
+      botToken: "${DISCORD_BOT_TOKEN}",
+
       dm: {
         policy: "pairing",
         allowFrom: [
           // "123456789012345678",
         ],
       },
-      
+
       // การตั้งค่า servers และ channels
       servers: {
         // Server เฉพาะ
@@ -89,7 +87,7 @@
         //   channels: ["general", "bot-commands"],
         //   requireMention: false,
         // },
-        
+
         // Servers อื่นๆ
         "*": {
           requireMention: true,
@@ -100,10 +98,10 @@
     // LINE
     line: {
       enabled: true,
-      channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
-      channelSecret: process.env.LINE_CHANNEL_SECRET,
+      channelAccessToken: "${LINE_CHANNEL_ACCESS_TOKEN}",
+      channelSecret: "${LINE_CHANNEL_SECRET}",
       dmPolicy: "pairing",
-      
+
       groups: {
         "*": {
           requireMention: true,
@@ -114,8 +112,8 @@
     // Slack (ตัวเลือก)
     slack: {
       enabled: false,
-      botToken: process.env.SLACK_BOT_TOKEN,
-      appToken: process.env.SLACK_APP_TOKEN,
+      botToken: "${SLACK_BOT_TOKEN}",
+      appToken: "${SLACK_APP_TOKEN}",
     },
   },
 
@@ -157,21 +155,15 @@
         "🦞", // emoji lobster!
       ],
     },
-    
+
     // คำสั่งระบบ
     commands: {
-      alwaysRespond: [
-        "/help",
-        "/start",
-        "/status",
-        "/new",
-        "/reset",
-      ],
+      alwaysRespond: ["/help", "/start", "/status", "/new", "/reset"],
     },
-    
+
     // จำกัดความยาวตอบกลับ
     maxResponseLength: 4096,
-    
+
     // แบ่งข้อความยาว
     chunkLongMessages: true,
   },
@@ -179,11 +171,11 @@
   // การตั้งค่าสื่อ
   media: {
     // ขนาดไฟล์สูงสุด
-    maxImageSize: 10485760,   // 10 MB
-    maxAudioSize: 20971520,   // 20 MB
-    maxVideoSize: 52428800,   // 50 MB
+    maxImageSize: 10485760, // 10 MB
+    maxAudioSize: 20971520, // 20 MB
+    maxVideoSize: 52428800, // 50 MB
     maxDocumentSize: 10485760, // 10 MB
-    
+
     // คุณสมบัติ
     transcribeAudio: true,
     downloadImages: true,
@@ -194,19 +186,14 @@
   // การตั้งค่า tools และ skills
   tools: {
     // เครื่องมือที่เปิดใช้งาน
-    enabled: [
-      "web_search",
-      "browser",
-      "memory",
-      "calculator",
-    ],
-    
+    enabled: ["web_search", "browser", "memory", "calculator"],
+
     // การตั้งค่าเว็บ
     web: {
       searchProvider: "perplexity",
       maxResults: 5,
     },
-    
+
     // การตั้งค่า browser
     browser: {
       headless: true,
@@ -235,7 +222,7 @@
   logging: {
     level: "info",
     file: "~/.openclaw/logs/openclaw.log",
-    
+
     // แยก logs ตามช่องทาง
     channelLogs: {
       whatsapp: "~/.openclaw/logs/whatsapp.log",

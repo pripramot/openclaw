@@ -12,14 +12,14 @@
   agent: {
     // โมเดลหลัก
     model: "anthropic/claude-opus-4-5",
-    
+
     // การตั้งค่าการคิด
     thinking: {
       mode: "high",
       maxTokens: 32000,
       temperature: 0.7,
     },
-    
+
     // การตั้งค่า session
     session: {
       maxMessages: 200,
@@ -28,7 +28,7 @@
       pruneOldSessions: true,
       maxSessionAge: "30d", // วัน
     },
-    
+
     // การตั้งค่าหน่วยความจำ
     memory: {
       enabled: true,
@@ -42,21 +42,21 @@
   gateway: {
     port: 18789,
     bind: "tailnet", // เปิดให้ Tailscale network
-    
+
     // การยืนยันตัวตน
     auth: {
       enabled: true,
-      token: process.env.OPENCLAW_GATEWAY_TOKEN,
+      token: "${OPENCLAW_GATEWAY_TOKEN}",
       // ต้องตั้ง: export OPENCLAW_GATEWAY_TOKEN="your-secure-random-token"
     },
-    
+
     // การตั้งค่า Canvas host
     canvasHost: {
       enabled: true,
       port: 18793,
       publicUrl: "https://your-domain.com",
     },
-    
+
     // การตั้งค่า WebSocket
     websocket: {
       pingInterval: 30000, // 30 วินาที
@@ -77,7 +77,7 @@
     whatsapp: {
       enabled: true,
       allowFrom: ["+66812345678"],
-      
+
       groups: {
         // กลุ่มเฉพาะ - การตั้งค่าแยก
         "120363123456789@g.us": {
@@ -85,14 +85,14 @@
           allowFrom: "*",
           maxResponseLength: 2048,
         },
-        
+
         // กลุ่มอื่นๆ
         "*": {
           requireMention: true,
           maxResponseLength: 4096,
         },
       },
-      
+
       // การตั้งค่าเพิ่มเติม
       options: {
         markMessagesRead: true,
@@ -105,11 +105,11 @@
     // Telegram ขั้นสูง
     telegram: {
       enabled: true,
-      botToken: process.env.TELEGRAM_BOT_TOKEN,
+      botToken: "${TELEGRAM_BOT_TOKEN}",
       dmPolicy: "pairing",
-      
+
       allowFrom: [],
-      
+
       groups: {
         "-1001234567890": {
           requireMention: false,
@@ -119,7 +119,7 @@
           requireMention: true,
         },
       },
-      
+
       options: {
         typingIndicator: true,
         chunkLongMessages: true,
@@ -132,13 +132,13 @@
     // Discord ขั้นสูง
     discord: {
       enabled: true,
-      botToken: process.env.DISCORD_BOT_TOKEN,
-      
+      botToken: "${DISCORD_BOT_TOKEN}",
+
       dm: {
         policy: "pairing",
         allowFrom: [],
       },
-      
+
       servers: {
         // Server เฉพาะ
         "987654321098765432": {
@@ -146,40 +146,40 @@
           roles: ["Member", "VIP"], // บทบาทที่สามารถใช้งาน
           requireMention: false,
         },
-        
+
         // Servers อื่นๆ
         "*": {
           requireMention: true,
           channels: ["bot-commands"], // จำกัด channels
         },
       },
-      
+
       options: {
         typingIndicator: true,
         embedResponses: true,
-        color: 0x5865F2, // สีของ embed
+        color: 0x5865f2, // สีของ embed
       },
     },
 
     // LINE ขั้นสูง
     line: {
       enabled: true,
-      channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
-      channelSecret: process.env.LINE_CHANNEL_SECRET,
+      channelAccessToken: "${LINE_CHANNEL_ACCESS_TOKEN}",
+      channelSecret: "${LINE_CHANNEL_SECRET}",
       dmPolicy: "pairing",
-      
+
       groups: {
         "*": {
           requireMention: true,
         },
       },
-      
+
       // Rich menu
       richMenu: {
         enabled: true,
-        menuId: process.env.LINE_RICH_MENU_ID,
+        menuId: "${LINE_RICH_MENU_ID}",
       },
-      
+
       options: {
         replyToken: true,
         pushMessages: true,
@@ -190,7 +190,7 @@
   // การกำหนดเส้นทางขั้นสูง (Multi-agent)
   routing: {
     enabled: true,
-    
+
     rules: [
       // กำหนดเส้นทางตาม user
       {
@@ -200,7 +200,7 @@
         },
         to: { agentId: "personal-assistant" },
       },
-      
+
       // กำหนดเส้นทางตามกลุ่ม
       {
         from: {
@@ -209,7 +209,7 @@
         },
         to: { agentId: "discord-bot" },
       },
-      
+
       // กำหนดเส้นทางตามเวลา
       {
         from: { channel: "whatsapp" },
@@ -219,7 +219,7 @@
           hours: "9-18",
         },
       },
-      
+
       // ค่าเริ่มต้น
       {
         from: { channel: "*" },
@@ -231,29 +231,16 @@
   // การตั้งค่าข้อความขั้นสูง
   messages: {
     groupChat: {
-      mentionPatterns: [
-        "@openclaw",
-        "openclaw",
-        "/ai",
-        "🦞",
-      ],
+      mentionPatterns: ["@openclaw", "openclaw", "/ai", "🦞"],
     },
-    
+
     commands: {
-      alwaysRespond: [
-        "/help",
-        "/start",
-        "/status",
-        "/new",
-        "/reset",
-        "/compact",
-        "/usage",
-      ],
+      alwaysRespond: ["/help", "/start", "/status", "/new", "/reset", "/compact", "/usage"],
     },
-    
+
     maxResponseLength: 4096,
     chunkLongMessages: true,
-    
+
     // การตั้งค่าการตอบกลับ
     responsePrefix: "", // คำนำหน้าการตอบกลับ
     includeQuote: false, // อ้างอิงข้อความเดิม
@@ -265,14 +252,14 @@
     maxAudioSize: 20971520,
     maxVideoSize: 52428800,
     maxDocumentSize: 10485760,
-    
+
     // คุณสมบัติ
     transcribeAudio: true,
     transcribeProvider: "openai", // openai | deepgram
     downloadImages: true,
     downloadDocuments: true,
     generateImagePreviews: true,
-    
+
     // การตั้งค่าการบีบอัด
     compression: {
       enabled: true,
@@ -293,14 +280,14 @@
       "file_operations",
       "system_commands",
     ],
-    
+
     // Web search
     web: {
       searchProvider: "perplexity", // perplexity | brave | google
       maxResults: 10,
       timeout: 30000,
     },
-    
+
     // Browser control
     browser: {
       enabled: true,
@@ -309,7 +296,7 @@
       maxTabs: 5,
       profiles: ["default", "work"],
     },
-    
+
     // Code interpreter
     code: {
       enabled: true,
@@ -317,7 +304,7 @@
       timeout: 30000,
       sandbox: true,
     },
-    
+
     // Memory
     memory: {
       autoIndex: true,
@@ -329,11 +316,7 @@
   // Skills
   skills: {
     enabled: true,
-    bundled: [
-      "blogwatcher",
-      "github-assistant",
-      "calendar",
-    ],
+    bundled: ["blogwatcher", "github-assistant", "calendar"],
     workspace: "~/.openclaw/skills",
     autoUpdate: false,
   },
@@ -342,7 +325,7 @@
   cron: {
     enabled: true,
     timezone: "Asia/Bangkok",
-    
+
     jobs: [
       {
         name: "morning-briefing",
@@ -374,7 +357,7 @@
       {
         name: "github-notifications",
         url: "/__openclaw__/webhooks/github",
-        secret: process.env.GITHUB_WEBHOOK_SECRET,
+        secret: "${GITHUB_WEBHOOK_SECRET}",
         deliverTo: {
           channel: "discord",
           recipient: "987654321098765432", // channel/server ID
@@ -391,7 +374,7 @@
       maxRequests: 60,
       window: "1m",
     },
-    
+
     // Content filtering
     contentFilter: {
       enabled: true,
@@ -400,7 +383,7 @@
         // "pattern2",
       ],
     },
-    
+
     // Audit logging
     audit: {
       enabled: true,
@@ -413,14 +396,14 @@
   logging: {
     level: "debug",
     file: "~/.openclaw/logs/openclaw.log",
-    
+
     // Rotation
     rotation: {
       enabled: true,
       maxSize: "10M",
       maxFiles: 7,
     },
-    
+
     // Channel-specific logs
     channelLogs: {
       whatsapp: "~/.openclaw/logs/whatsapp.log",
@@ -428,10 +411,10 @@
       discord: "~/.openclaw/logs/discord.log",
       line: "~/.openclaw/logs/line.log",
     },
-    
+
     // Structured logging
     format: "json", // text | json
-    
+
     // Performance monitoring
     performance: {
       enabled: true,

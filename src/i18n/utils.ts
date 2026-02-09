@@ -2,7 +2,7 @@
  * i18n utility functions for OpenClaw
  */
 
-import type { Locale, TranslationKey } from "./types.js";
+import type { Locale } from "./types.js";
 
 /**
  * Interpolate parameters in a translation string.
@@ -12,7 +12,9 @@ import type { Locale, TranslationKey } from "./types.js";
  * interpolate("Hello {{name}}", { name: "World" }) // "Hello World"
  */
 export function interpolate(text: string, params?: Record<string, string | number>): string {
-  if (!params) return text;
+  if (!params) {
+    return text;
+  }
 
   return text.replace(/\{\{(\w+)\}\}/g, (match, key) => {
     const value = params[key];
@@ -50,7 +52,9 @@ export function detectSystemLocale(): Locale {
   const lang =
     process.env.LANG || process.env.LANGUAGE || process.env.LC_ALL || process.env.LC_MESSAGES;
 
-  if (!lang) return "en";
+  if (!lang) {
+    return "en";
+  }
 
   // Check if Thai locale
   if (lang.toLowerCase().startsWith("th")) {

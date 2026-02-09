@@ -39,9 +39,9 @@ export function getLocale(): Locale {
 /**
  * Set the active locale
  */
-export function setLocale(locale: Locale): void {
+export function setLocale(locale: Locale | string): void {
   if (!isValidLocale(locale)) {
-    console.warn(`Invalid locale: ${locale}. Falling back to 'en'.`);
+    console.warn(`Invalid locale: ${String(locale)}. Falling back to 'en'.`);
     currentLocale = "en";
     return;
   }

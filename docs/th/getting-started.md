@@ -37,6 +37,7 @@ openclaw onboard --install-daemon
 ```
 
 ตัวช่วยจะแนะนำคุณผ่าน:
+
 - ✅ การตั้งค่า Gateway
 - ✅ การยืนยันตัวตน AI models
 - ✅ การตั้งค่าช่องทาง (Channels)
@@ -63,21 +64,27 @@ openclaw gateway --port 18789 --verbose
 เชื่อมต่อกับช่องทางที่คุณต้องการ:
 
 #### WhatsApp
+
 ```bash
 openclaw channels login whatsapp
 ```
+
 สแกน QR code ด้วยแอป WhatsApp ของคุณ
 
 #### Telegram
+
 ```bash
 openclaw channels login telegram
 ```
+
 ป้อน bot token ของคุณ
 
 #### Discord
+
 ```bash
 openclaw channels login discord
 ```
+
 ป้อน bot token ของคุณ
 
 ### ขั้นตอนที่ 5: ทดสอบ
@@ -106,12 +113,12 @@ openclaw agent --message "สวัสดี! คุณทำงานไหม?
   // ตั้งค่า locale เป็นภาษาไทย
   locale: "th-TH",
   timezone: "Asia/Bangkok",
-  
+
   // การตั้งค่า Agent
   agent: {
     model: "anthropic/claude-opus-4-5",
   },
-  
+
   // การตั้งค่าช่องทาง
   channels: {
     telegram: {
