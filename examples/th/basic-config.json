@@ -1,0 +1,89 @@
+// OpenClaw - การตั้งค่าพื้นฐาน
+// ไฟล์การตั้งค่าพื้นฐานสำหรับ OpenClaw
+// บันทึกเป็น ~/.openclaw/openclaw.json
+
+{
+  // ภาษาและเขตเวลา
+  locale: "th-TH",
+  timezone: "Asia/Bangkok",
+  dateFormat: "DD/MM/YYYY",
+
+  // การตั้งค่า Agent
+  agent: {
+    // โมเดล AI ที่จะใช้
+    model: "anthropic/claude-opus-4-5",
+    
+    // การตั้งค่าการคิด
+    thinking: {
+      mode: "low", // low | medium | high
+      maxTokens: 8000,
+    },
+    
+    // การตั้งค่า session
+    session: {
+      maxMessages: 100,
+      autoCompact: true,
+    },
+  },
+
+  // การตั้งค่า Gateway
+  gateway: {
+    // พอร์ตที่จะใช้
+    port: 18789,
+    
+    // การผูกกับ interface
+    bind: "loopback", // loopback | tailnet | all
+    
+    // การยืนยันตัวตน (สำหรับการเข้าถึงระยะไกล)
+    auth: {
+      enabled: false,
+      // token: "your-secure-token-here",
+    },
+  },
+
+  // การตั้งค่าช่องทาง - เริ่มต้นปิดทั้งหมด
+  // เปิดใช้งานเมื่อพร้อม
+  channels: {
+    whatsapp: {
+      enabled: false,
+    },
+    telegram: {
+      enabled: false,
+    },
+    discord: {
+      enabled: false,
+    },
+  },
+
+  // การตั้งค่าข้อความ
+  messages: {
+    // การตั้งค่าข้อความกลุ่ม
+    groupChat: {
+      // รูปแบบการกล่าวถึงที่จะตอบ
+      mentionPatterns: [
+        "@openclaw",
+        "openclaw",
+      ],
+    },
+    
+    // จำกัดความยาวของการตอบกลับ
+    maxResponseLength: 4096,
+  },
+
+  // การตั้งค่าสื่อ
+  media: {
+    // จำกัดขนาดไฟล์สื่อ (bytes)
+    maxImageSize: 10485760,  // 10 MB
+    maxAudioSize: 20971520,  // 20 MB
+    maxVideoSize: 52428800,  // 50 MB
+    
+    // การถอดเสียงอัตโนมัติ
+    transcribeAudio: true,
+  },
+
+  // การตั้งค่า logging
+  logging: {
+    level: "info", // error | warn | info | debug
+    file: "~/.openclaw/logs/openclaw.log",
+  },
+}
