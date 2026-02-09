@@ -1,0 +1,80 @@
+{
+  "welcome": "Welcome to OpenClaw",
+  "commands": {
+    "status": "Status",
+    "reset": "Reset",
+    "new": "New",
+    "help": "Help",
+    "start": "Start",
+    "stop": "Stop",
+    "compact": "Compact",
+    "clear": "Clear"
+  },
+  "messages": {
+    "session_started": "New session started",
+    "session_reset": "Session reset",
+    "session_cleared": "Session cleared",
+    "error": "An error occurred",
+    "success": "Success",
+    "loading": "Loading...",
+    "connecting": "Connecting...",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "sending": "Sending...",
+    "sent": "Sent",
+    "received": "Received",
+    "processing": "Processing..."
+  },
+  "channels": {
+    "whatsapp": "WhatsApp",
+    "telegram": "Telegram",
+    "discord": "Discord",
+    "slack": "Slack",
+    "signal": "Signal",
+    "imessage": "iMessage",
+    "webchat": "WebChat",
+    "googlechat": "Google Chat",
+    "msteams": "Microsoft Teams",
+    "matrix": "Matrix",
+    "zalo": "Zalo",
+    "bluebubbles": "BlueBubbles"
+  },
+  "errors": {
+    "not_found": "Not found",
+    "unauthorized": "Unauthorized",
+    "forbidden": "Forbidden",
+    "bad_request": "Bad request",
+    "internal_error": "Internal server error",
+    "timeout": "Request timeout",
+    "network_error": "Network error",
+    "invalid_config": "Invalid configuration",
+    "missing_token": "Missing token",
+    "invalid_token": "Invalid token",
+    "channel_not_enabled": "Channel not enabled",
+    "channel_not_connected": "Channel not connected"
+  },
+  "status": {
+    "online": "Online",
+    "offline": "Offline",
+    "connecting": "Connecting",
+    "error": "Error",
+    "ready": "Ready",
+    "busy": "Busy"
+  },
+  "pairing": {
+    "code_sent": "Pairing code sent",
+    "code_invalid": "Invalid pairing code",
+    "code_expired": "Pairing code expired",
+    "success": "Pairing successful",
+    "already_paired": "Already paired",
+    "request": "Pairing request from {sender}. Code: {code}"
+  },
+  "gateway": {
+    "starting": "Starting gateway...",
+    "started": "Gateway started on port {port}",
+    "stopping": "Stopping gateway...",
+    "stopped": "Gateway stopped",
+    "error": "Gateway error: {error}",
+    "restart": "Restarting gateway..."
+  }
+}

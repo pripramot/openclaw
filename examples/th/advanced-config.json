@@ -1,0 +1,162 @@
+{
+  "$schema": "https://openclaw.ai/schema/config.json",
+  "locale": "th-TH",
+  "language": "th",
+  "timezone": "Asia/Bangkok",
+  "gateway": {
+    "mode": "local",
+    "port": 18789,
+    "bind": "tailnet",
+    "auth": {
+      "token": "your-secure-64-char-hex-token-here"
+    },
+    "canvasHost": {
+      "port": 18793,
+      "bind": "loopback"
+    }
+  },
+  "channels": {
+    "whatsapp": {
+      "enabled": true,
+      "allowFrom": ["+66812345678", "+66887654321"],
+      "groups": {
+        "*": {
+          "requireMention": true,
+          "activation": "mention"
+        },
+        "120363XXXXX@g.us": {
+          "requireMention": false,
+          "activation": "always"
+        }
+      }
+    },
+    "telegram": {
+      "enabled": true,
+      "token": "YOUR_TELEGRAM_BOT_TOKEN",
+      "allowFrom": ["@yourusername", "123456789"],
+      "dm": {
+        "policy": "pairing",
+        "allowFrom": ["@yourusername"]
+      },
+      "groups": {
+        "*": {
+          "requireMention": true,
+          "activation": "mention"
+        }
+      }
+    },
+    "discord": {
+      "enabled": true,
+      "token": "YOUR_DISCORD_BOT_TOKEN",
+      "dm": {
+        "policy": "pairing",
+        "allowFrom": ["your_user_id"]
+      },
+      "guilds": {
+        "your_guild_id": {
+          "enabled": true,
+          "channels": ["channel_id_1", "channel_id_2"],
+          "activation": "mention"
+        }
+      }
+    },
+    "slack": {
+      "enabled": true,
+      "token": "YOUR_SLACK_BOT_TOKEN",
+      "dm": {
+        "policy": "pairing"
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "provider": "anthropic",
+      "model": "claude-opus-4-5",
+      "auth": {
+        "type": "oauth"
+      },
+      "sandbox": {
+        "mode": "non-main"
+      }
+    }
+  },
+  "routing": {
+    "agents": {
+      "main": {
+        "workspace": "~/.openclaw/workspace",
+        "sandbox": {
+          "mode": "off"
+        }
+      },
+      "work": {
+        "workspace": "~/.openclaw/workspaces/work",
+        "channels": {
+          "whatsapp": {
+            "allowFrom": ["+66812345678"]
+          }
+        }
+      }
+    }
+  },
+  "session": {
+    "mainKey": "main",
+    "groupIsolation": true,
+    "maxHistory": 100
+  },
+  "messages": {
+    "groupChat": {
+      "mentionPatterns": ["@openclaw", "@บอท"]
+    }
+  },
+  "automation": {
+    "cron": {
+      "enabled": true,
+      "jobs": [
+        {
+          "name": "daily-summary",
+          "schedule": "0 9 * * *",
+          "timezone": "Asia/Bangkok",
+          "command": "openclaw agent --message 'สรุปข่าววันนี้'",
+          "enabled": true
+        },
+        {
+          "name": "evening-reminder",
+          "schedule": "0 18 * * *",
+          "timezone": "Asia/Bangkok",
+          "command": "openclaw agent --message 'สรุปงานวันนี้'",
+          "enabled": true
+        }
+      ]
+    },
+    "webhooks": {
+      "enabled": true,
+      "port": 18790,
+      "bind": "loopback",
+      "auth": {
+        "token": "your-webhook-token-here"
+      },
+      "endpoints": [
+        {
+          "path": "/webhook/alert",
+          "method": "POST",
+          "action": "send-message",
+          "target": "+66812345678"
+        }
+      ]
+    }
+  },
+  "tools": {
+    "web": {
+      "search": {
+        "enabled": true,
+        "apiKey": "YOUR_BRAVE_SEARCH_API_KEY"
+      }
+    }
+  },
+  "logging": {
+    "level": "info",
+    "file": "~/.openclaw/logs/gateway.log",
+    "maxSize": "10mb",
+    "maxFiles": 5
+  }
+}

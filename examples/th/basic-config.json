@@ -1,0 +1,41 @@
+{
+  "$schema": "https://openclaw.ai/schema/config.json",
+  "locale": "th-TH",
+  "language": "th",
+  "timezone": "Asia/Bangkok",
+  "gateway": {
+    "mode": "local",
+    "port": 18789,
+    "bind": "loopback",
+    "auth": {
+      "token": "your-secure-token-here"
+    }
+  },
+  "channels": {
+    "whatsapp": {
+      "enabled": true,
+      "allowFrom": ["+66812345678"]
+    },
+    "telegram": {
+      "enabled": false,
+      "token": "YOUR_TELEGRAM_BOT_TOKEN",
+      "dm": {
+        "policy": "pairing"
+      }
+    },
+    "discord": {
+      "enabled": false,
+      "token": "YOUR_DISCORD_BOT_TOKEN"
+    }
+  },
+  "agents": {
+    "defaults": {
+      "provider": "anthropic",
+      "model": "claude-opus-4-5"
+    }
+  },
+  "session": {
+    "mainKey": "main",
+    "groupIsolation": true
+  }
+}
